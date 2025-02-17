@@ -1,0 +1,99 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+
+   "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:security/recommended-legacy",
+    "plugin:prettier/recommended"
+  ],
+
+  "plugins": ["perfectionist", "security"],
+
+  "parser": "@typescript-eslint/parser",
+   "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+
+  "rules": {
+     "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": false,
+        "parser": "typescript"
+      }
+    ],
+
+    "no-unused-vars": "off",
+
+    "perfectionist/sort-imports": [
+      "error",
+      {
+        "type": "line-length",
+        "order": "asc",
+        "groups": [
+          "next",
+          ["react", "elated-react"],
+          ["components"],
+          ["services"],
+          ["repositories"],
+          ["entities"],
+          ["hooks"],
+          ["utils"],
+          ["style"],
+          ["constants"],
+          ["type", "internal-type"],
+          "side-effect",
+          "object",
+          "unknown"
+        ],
+        "custom-groups": {
+          "value": {
+            "react": ["react"],
+            "related-react": ["react-*"],
+            "next": ["next", "next/**"],
+            "style" : ["**/**.module.css", "**/style/**"],
+            "hooks": ["**/use_*","**/hooks/**"],
+            "components":[ "**/components/**", "**/_components/**"],
+            "services" : ["**/services/**"],
+            "repositories" : ["**/repositories/**"],
+            "entities" : ["**/entities/**"],
+            "utils": ["**/utils/**"],
+            "constants" : ["**/constants/**"]
+          },
+          "type": {
+            "react": "react"
+          }
+        },
+        "newlines-between": "always"
+      }
+    ],
+
+
+    "import/no-unresolved": "error",
+
+    "import/no-cycle": "error",
+  
+     "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "fixStyle": "separate-type-imports"
+      }
+    ],
+
+    "@typescript-eslint/no-implied-eval": "error"
+  }
+}
