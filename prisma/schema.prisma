@@ -12,3 +12,62 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model user {
+id Int @id @default(autoincrement())
+email String @unique
+password String
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt 
+
+marimos marimo[]
+history history[]
+@@map("users")
+}
+
+
+model marimo {
+  id Int @id @default(autoincrement())
+  userId Int
+  size Int
+  rect Json
+  color String
+  status String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user user @relation(fields: [userId], references: [id])
+  object object[]
+  history history[]
+@@map("marimos")
+}
+
+model object{
+  id Int @id @default(autoincrement())
+  marimoId Int
+  type String
+  rect Json
+  isActive Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  marimo marimo @relation(fields: [marimoId], references: [id])
+
+@@map("objects")
+}
+
+model history{
+  id  Int @id @default(autoincrement())
+  userid Int
+  marimoid Int
+  content String
+  color String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user user @relation(fields: [userid], references: [id])
+  marimo marimo @relation(fields: [marimoid], references: [id])
+
+  @@map("histories")
+}
