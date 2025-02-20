@@ -1,0 +1,107 @@
+name: Deploy Next.js to Server with Playwright & Vitest
+
+on:
+  push:
+    branches: main
+
+jobs:
+  # 빌드 단계
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js Project
+        run: npm run build
+
+  # 테스트 단계 (Playwright + Vitest)
+  test:
+    needs: build  # 빌드가 완료된 후 실행
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Vitest Tests
+        run: npm run test  # Vitest 단위 테스트 실행
+
+      - name: Run Playwright Tests
+        run: npx playwright test  # Playwright E2E 테스트 실행
+
+  # 배포 단계
+  deploy:
+    needs: test  # 테스트가 완료된 후 배포
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js Project
+        run: npm run build
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/apps/nextjs
+
+            # 기존 앱 종료
+            pm2 stop next-app || true
+            pm2 delete next-app || true
+
+            # 기존 코드 삭제 후 새 코드 가져오기
+            rm -rf ~/apps/nextjs/*
+            git clone --depth=1 https://github.com/FRONT-END-BOOTCAMP-PLUS-3/angry_marimo.git ~/apps/nextjs
+            cd ~/apps/nextjs
+
+            # 환경 변수 설정
+            echo "NEXT_PUBLIC_API_URL=https://your-api.com" > .env
+
+            # 패키지 설치 및 빌드
+            npm ci
+            npm run build
+
+            # Next.js 앱 실행 (PM2)
+            pm2 start npm --name "next-app" -- run start -- -p 3000
+            pm2 save
+
+            # 방화벽 해제 (필요시)
+            sudo ufw allow 3000
