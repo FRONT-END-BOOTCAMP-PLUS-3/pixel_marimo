@@ -1,23 +1,26 @@
 {
-  "name": "pixel-marimo",
+  "name": "angry-marimo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:playwright": "playwright test"
   },
   "dependencies": {
+    "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.7",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
-    "@eslint/eslintrc": "^3",
     "@babel/preset-env": "^7.26.0",
+    "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.50.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -33,8 +36,9 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-perf": "^3.3.2",
     "eslint-plugin-security": "^2.1.0",
-    "typescript": "^5",
     "prettier": "^3.1.1",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5",
+    "vitest": "^3.0.6"
   }
 }
