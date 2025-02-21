@@ -1,7 +1,3 @@
 .canvas {
-  display: block; /* 기본적으로 canvas 는 inline-block */
-  border: 1px solid #000;
-  background-color: white;
-  width: 500px;
-  height: 500px;
+  background-color: var(--background);
 }
