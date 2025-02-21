@@ -23,11 +23,19 @@
 
   --background: #ffffff;
   --foreground: #171717;
+  --disabled: #B0B0B0;
   --primary-color: #89a45f;
   --secondary-color: #a2b38b;
   --olive-green: #e4e9be;
   --point-color: #e6ba95;
   --light-green: #fafdd6;
+
+  --danger-color: #ce202f;
+  --warning-color: #e67326;
+  --caution-color: #ffd003;
+
+  --base-white: #ffffff;
+  --base-black: #000000;
 }
 
 .text-xs {
