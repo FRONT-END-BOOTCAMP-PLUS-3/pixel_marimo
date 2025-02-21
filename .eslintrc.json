@@ -86,8 +86,6 @@
 
     "import/no-unresolved": "error",
 
-    "import/no-cycle": "error",
-
     "@typescript-eslint/no-implied-eval": "error"
   }
 }
