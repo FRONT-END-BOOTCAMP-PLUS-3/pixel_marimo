@@ -5,10 +5,10 @@ import React, { useState, useEffect, useRef } from "react"
 import styles from "./page.module.css"
 
 interface CanvasProps {
-  marimoComponent: React.ReactNode
+  marimoImgSrc: string
 }
 
-const Canvas: React.FC<CanvasProps> = ({ marimoComponent }) => {
+const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [canvasWidth, setCanvasWidth] = useState(window.innerWidth)
   const [canvasHeight, setCanvasHeight] = useState(window.innerHeight)
@@ -33,9 +33,22 @@ const Canvas: React.FC<CanvasProps> = ({ marimoComponent }) => {
       const ctx = canvas.getContext("2d")
       if (ctx) {
         drawFlag(ctx, canvasWidth, canvasHeight) // 캔버스 크기에 맞게 그리기
+
+        // 마리모 이미지를 캔버스에 그리기
+        const marimoImage = new Image()
+        marimoImage.src = marimoImgSrc
+        marimoImage.onload = () => {
+          ctx.drawImage(
+            marimoImage,
+            canvasWidth / 2 - 50,
+            canvasHeight / 2 - 50,
+            100,
+            100,
+          ) // 중앙에 마리모 그리기
+        }
       }
     }
-  }, [canvasWidth, canvasHeight]) // canvas 크기 변경 시마다 호출
+  }, [canvasWidth, canvasHeight, marimoImgSrc]) // 크기 변경 시마다 다시 그림
 
   const drawFlag = (
     ctx: CanvasRenderingContext2D,
@@ -67,9 +80,7 @@ const Canvas: React.FC<CanvasProps> = ({ marimoComponent }) => {
         className={styles.canvas}
         width={canvasWidth}
         height={canvasHeight}
-      >
-        {marimoComponent}
-      </canvas>
+      />
     </div>
   )
 }
