@@ -12,6 +12,8 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [canvasWidth, setCanvasWidth] = useState(window.innerWidth)
   const [canvasHeight, setCanvasHeight] = useState(window.innerHeight)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const imageRef = useRef(new Image())
 
   useEffect(() => {
     // 윈도우 크기가 변경될 때마다 canvas 크기 업데이트
@@ -28,8 +30,15 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   }, [])
 
   useEffect(() => {
+    const marimoImage = imageRef.current
+    marimoImage.src = marimoImgSrc
+    marimoImage.onload = () => {
+      setImageLoaded(true) // 이미지 로딩 상태를 true로 설정
+    }
+  }, [marimoImgSrc])
+  useEffect(() => {
     const canvas = canvasRef.current
-    if (canvas) {
+    if (canvas && imageLoaded) {
       const ctx = canvas.getContext("2d")
       if (ctx) {
         drawFlag(ctx, canvasWidth, canvasHeight) // 캔버스 크기에 맞게 그리기
@@ -48,7 +57,7 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
         }
       }
     }
-  }, [canvasWidth, canvasHeight, marimoImgSrc]) // 크기 변경 시마다 다시 그림
+  }, [canvasWidth, canvasHeight, imageLoaded, marimoImgSrc]) // 크기 변경 시마다 다시 그림
 
   const drawFlag = (
     ctx: CanvasRenderingContext2D,
