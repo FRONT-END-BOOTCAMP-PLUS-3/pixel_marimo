@@ -12,18 +12,17 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [canvasWidth, setCanvasWidth] = useState(window.innerWidth)
   const [canvasHeight, setCanvasHeight] = useState(window.innerHeight)
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const imageRef = useRef(new Image())
+  const [imageLoaded, setImageLoaded] = useState(false) // 이미지 로딩 완료 여부 추적하기 위해
+  const [marimoPosition, setMarimoPosition] = useState({
+    x: canvasWidth / 2 - 50,
+    y: canvasHeight / 2 - 50,
+  })
+  const [isDragging, setIsDragging] = useState(false)
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 }) // 드래그 시작 위치 저장
+  const imageRef = useRef(new Image()) // 이미지 객체를 참조
 
   useEffect(() => {
-    // 윈도우 크기가 변경될 때마다 canvas 크기 업데이트
-    const handleCanvasResize = () => {
-      setCanvasWidth(window.innerWidth)
-      setCanvasHeight(window.innerHeight)
-    }
-
     window.addEventListener("resize", handleCanvasResize)
-
     return () => {
       window.removeEventListener("resize", handleCanvasResize)
     }
@@ -33,51 +32,89 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
     const marimoImage = imageRef.current
     marimoImage.src = marimoImgSrc
     marimoImage.onload = () => {
-      setImageLoaded(true) // 이미지 로딩 상태를 true로 설정
-    }
-  }, [marimoImgSrc])
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (canvas && imageLoaded) {
-      const ctx = canvas.getContext("2d")
-      if (ctx) {
-        drawFlag(ctx, canvasWidth, canvasHeight) // 캔버스 크기에 맞게 그리기
-
-        // 마리모 이미지를 캔버스에 그리기
-        const marimoImage = new Image()
-        marimoImage.src = marimoImgSrc
-        marimoImage.onload = () => {
+      setImageLoaded(true) // 이미지 로딩이 완료되면 상태를 업데이트
+      const canvas = canvasRef.current
+      if (canvas) {
+        const ctx = canvas.getContext("2d") // 캔버스의 2D 렌더링 컨텍스트를 얻습니다.
+        if (ctx) {
           ctx.drawImage(
             marimoImage,
-            canvasWidth / 2 - 50,
-            canvasHeight / 2 - 50,
+            marimoPosition.x,
+            marimoPosition.y,
             100,
             100,
-          ) // 중앙에 마리모 그리기
+          )
         }
       }
     }
-  }, [canvasWidth, canvasHeight, imageLoaded, marimoImgSrc]) // 크기 변경 시마다 다시 그림
+  }, [marimoImgSrc, marimoPosition.x, marimoPosition.y])
+
+  useEffect(() => {
+    if (canvasRef.current && imageLoaded) {
+      const ctx = canvasRef.current.getContext("2d")
+      if (ctx) {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+        drawFlag(ctx, canvasWidth, canvasHeight)
+        ctx.drawImage(
+          imageRef.current,
+          marimoPosition.x,
+          marimoPosition.y,
+          100,
+          100,
+        ) // 로드된 이미지를 현재 위치에 그립니다.
+      }
+    }
+  }, [marimoPosition, canvasWidth, canvasHeight, imageLoaded])
+
+  const handleCanvasResize = () => {
+    setCanvasWidth(window.innerWidth)
+    setCanvasHeight(window.innerHeight)
+  }
+
+  const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    const rect = canvasRef.current?.getBoundingClientRect()
+    if (!rect) return
+    const x = event.clientX - rect.left // 클릭한 x 좌표를 캔버스 상대 좌표로 변환
+    const y = event.clientY - rect.top //클릭한 y 좌표를 캔버스 상대 좌표로 변환
+    if (
+      x > marimoPosition.x &&
+      x < marimoPosition.x + 100 &&
+      y > marimoPosition.y &&
+      y < marimoPosition.y + 100
+    ) {
+      setIsDragging(true)
+      setStartPosition({ x: x - marimoPosition.x, y: y - marimoPosition.y }) // 드래그 시작 위치를 저장
+    }
+  }
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isDragging) {
+      const rect = canvasRef.current?.getBoundingClientRect()
+      if (!rect) return
+      const x = event.clientX - rect.left - startPosition.x
+      const y = event.clientY - rect.top - startPosition.y
+      // startPosition.x를 빼주는 이유는 드래그를 시작할 때 마우스 포인터가 요소 내부의 어느 지점에서 클릭되었는지를 고려하기 위함입니다.
+      // 즉, 요소를 클릭한 지점이 요소의 왼쪽 상단 모서리와 정확히 일치하지 않을 수 있으므로, 이를 보정하여 요소가 마우스 커서를 정확하게 따라가도록 합니다.
+
+      setMarimoPosition({ x, y })
+    }
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
 
   const drawFlag = (
     ctx: CanvasRenderingContext2D,
     width: number,
     height: number,
   ) => {
-    ctx.clearRect(0, 0, width, height) // 캔버스를 초기화
-
-    // 프랑스 국기처럼 3등분해서 색 칠하기
+    ctx.clearRect(0, 0, width, height)
     const sectionWidth = width / 3
-
-    // 왼쪽: 파란색
     ctx.fillStyle = "#0055A4"
     ctx.fillRect(0, 0, sectionWidth, height)
-
-    // 가운데: 흰색
     ctx.fillStyle = "#FFFFFF"
     ctx.fillRect(sectionWidth, 0, sectionWidth, height)
-
-    // 오른쪽: 빨간색
     ctx.fillStyle = "#EF4135"
     ctx.fillRect(sectionWidth * 2, 0, sectionWidth, height)
   }
@@ -89,6 +126,10 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
         className={styles.canvas}
         width={canvasWidth}
         height={canvasHeight}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp} // 마우스가 캔버스를 벗어날 때 드래그 종료
       />
     </div>
   )
