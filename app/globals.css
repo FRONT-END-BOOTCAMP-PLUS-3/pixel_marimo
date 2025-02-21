@@ -1,5 +1,16 @@
 @import "./reset.css";
 
+@font-face {
+  font-family: 'CookieRun-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: CookieRun-Regular;
+}
+
 :root {
   --text-xs: 0.75rem; /* 12px */
   --text-sm: 0.875rem; /* 14px */
@@ -153,7 +164,6 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
