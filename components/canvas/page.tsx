@@ -17,8 +17,7 @@ interface MarimoData {
   }
 }
 
-const Canvas = () => {
-  const marimoImgSrc = "images/marimo.svg"
+const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [canvasWidth, setCanvasWidth] = useState(window.innerWidth)
   const [canvasHeight, setCanvasHeight] = useState(window.innerHeight)
