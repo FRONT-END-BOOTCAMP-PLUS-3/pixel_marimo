@@ -52,7 +52,11 @@ export const LoginForm = () => {
         <Input label={EMAIL_TEXT} setState={setEmail} />
         <Input label={PASSWORD_TEXT} setState={setPassword} />
       </div>
-      <button disabled={!isValid} className={`${button} text-xl-b`}>
+      <button
+        name="login"
+        disabled={!isValid}
+        className={`${button} text-xl-b`}
+      >
         {LOGIN_TEXT}
       </button>
     </>
