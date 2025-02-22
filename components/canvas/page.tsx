@@ -77,16 +77,24 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   }
 
   const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDragging) {
-      const rect = canvasRef.current?.getBoundingClientRect()
-      if (!rect) return
-      const x = event.clientX - rect.left - startPosition.x
-      const y = event.clientY - rect.top - startPosition.y
-      // startPosition.x를 빼주는 이유는 드래그를 시작할 때 마우스 포인터가 요소 내부의 어느 지점에서 클릭되었는지를 고려하기 위함입니다.
-      // 즉, 요소를 클릭한 지점이 요소의 왼쪽 상단 모서리와 정확히 일치하지 않을 수 있으므로, 이를 보정하여 요소가 마우스 커서를 정확하게 따라가도록 합니다.
+    const canvas = canvasRef.current
+    if (!canvas || !isDragging) return
+    //canvasRef.current를 변수 canvas에 저장하고 시작 부분에서 존재하지 않거나 드래그 상태가 아닐 경우 조기 반환(return)
 
-      setMarimoPosition({ x, y })
-    }
+    const rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left - startPosition.x
+    const y = event.clientY - rect.top - startPosition.y
+
+    // 마우스 위치가 이미지 범위 내인지 확인하고, 커서 스타일 설정
+    const isOverImage =
+      x > marimoPosition.x &&
+      x < marimoPosition.x + 100 &&
+      y > marimoPosition.y &&
+      y < marimoPosition.y + 100
+    canvas.style.cursor = isOverImage ? "pointer" : "default"
+
+    // 이미지 드래그 위치 업데이트
+    setMarimoPosition({ x, y })
   }
 
   const handleMouseUp = () => {
