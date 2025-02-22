@@ -9,11 +9,18 @@ export const VerticalLogo = () => {
   return (
     <div className={wrapper}>
       <div className={title__div}>
-        <p className="text-5xl-b">Angry Marimo</p>
+        <p id="title" className="text-5xl-b">
+          Angry Marimo
+        </p>
       </div>
       <div className={image__div}>
         {/* FIXME : 이미지 변경해야 합니다. */}
-        <Image src="./marimo/secondary_marimo.svg" fill alt="marimo" />
+        <Image
+          id="logo"
+          src="./marimo/secondary_marimo.svg"
+          fill
+          alt="marimo"
+        />
       </div>
     </div>
   )
