@@ -1,11 +1,11 @@
 import { NextRequest } from "next/server"
 
 import { POST } from "@marimo/app/api/login/route"
-import { test, vi, expect, beforeEach } from "vitest"
-import { LoginUsecase } from "@marimo/application/usecases/auth/LoginUsecase"
+import { test, vi, expect, beforeEach, afterEach } from "vitest"
+import { LoginUsecase } from "@marimo/application/usecases/auth/login-usecase"
 
 beforeEach(() => {
-  vi.mock("@marimo/application/usecases/auth/LoginUsecase", () => ({
+  vi.mock("@marimo/application/usecases/auth/login-usecase", () => ({
     LoginUsecase: vi.fn().mockImplementation(() => ({
       execute: vi.fn(),
     })),
@@ -15,6 +15,10 @@ beforeEach(() => {
     PgAuthRepository: vi.fn(),
     PgUserRepository: vi.fn(),
   }))
+})
+
+afterEach(() => {
+  vi.clearAllMocks()
 })
 
 test("이메일 또는 비밀번호가 없으면 400 상태와 실패 메시지를 반환한다", async () => {

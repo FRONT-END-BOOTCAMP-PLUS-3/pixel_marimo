@@ -27,7 +27,7 @@ export const userLogin = async (formData: FormData) => {
   })
 
   if (!data.ok) {
-    redirect(`/login?status=${data.status}`)
+    return redirect(`/login?status=${data.status}`)
   }
 
   const user = await data.json()

@@ -1,4 +1,4 @@
-import { AuthRepository } from "@marimo/domain/repositories/AuthRepository"
+import { AuthRepository } from "@marimo/domain/repositories/auth-repository"
 
 import { hashPassword } from "@marimo/utils/hash-password"
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 
-import { LoginUsecase } from "@marimo/application/usecases/auth/LoginUsecase"
+import { LoginUsecase } from "@marimo/application/usecases/auth/login-usecase"
 import {
   PgAuthRepository,
   PgUserRepository,

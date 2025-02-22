@@ -1,21 +1,24 @@
 import { cookies } from "next/headers"
 
-import { beforeEach } from "node:test"
-import { test, vi, expect } from "vitest"
 import { GET } from "@marimo/app/api/user/route"
-import { UserUsecase } from "@marimo/application/usecases/auth/UserUsecase"
+import { test, vi, expect, afterEach, beforeEach } from "vitest"
+import { UserUsecase } from "@marimo/application/usecases/auth/user-usecase"
 
 beforeEach(() => {
   // 모킹 설정
   vi.mock("next/headers", () => ({
-    cookies: vi.fn(), // cookies를 mock 함수로 설정
+    cookies: vi.fn(),
   }))
 
-  vi.mock("@marimo/application/usecases/auth/UserUsecase", () => ({
+  vi.mock("@marimo/application/usecases/auth/user-usecase", () => ({
     UserUsecase: vi.fn().mockImplementation(() => ({
       getUser: vi.fn(),
     })),
   }))
+})
+
+afterEach(() => {
+  vi.clearAllMocks()
 })
 
 test("로그인 토큰이 없으면 401 상태와 실패 메시지를 반환한다", async () => {

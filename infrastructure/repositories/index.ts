@@ -1,2 +1,2 @@
-export * from "@marimo/infrastructure/repositories/PgAuthRepositories"
-export * from "@marimo/infrastructure/repositories/PgUserRepository"
+export * from "@marimo/infrastructure/repositories/pg-auth-repositories"
+export * from "@marimo/infrastructure/repositories/pg-user-repository"

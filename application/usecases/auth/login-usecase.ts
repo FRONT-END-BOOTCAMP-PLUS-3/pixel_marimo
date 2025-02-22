@@ -1,4 +1,4 @@
-import { UserRepository } from "@marimo/domain/repositories/UserRepository"
+import { UserRepository } from "@marimo/domain/repositories/user-repository"
 
 import { comparePassword } from "@marimo/utils/hash-password"
 
