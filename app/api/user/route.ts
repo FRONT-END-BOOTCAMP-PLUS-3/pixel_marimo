@@ -9,14 +9,14 @@ export async function GET() {
   const token = cookieStore.get("token")?.value
 
   if (!token)
-    return NextResponse.json({ message: "login failed" }, { status: 301 })
+    return NextResponse.json({ message: "login failed" }, { status: 401 })
 
   const usecase = new UserUsecase(new PgUserRepository())
 
   const user = await usecase.getUser(token)
 
   if (user === null)
-    return NextResponse.json({ message: "login failed" }, { status: 301 })
+    return NextResponse.json({ message: "login failed" }, { status: 401 })
 
-  return NextResponse.json({ user }, { status: 201 })
+  return NextResponse.json({ user }, { status: 200 })
 }

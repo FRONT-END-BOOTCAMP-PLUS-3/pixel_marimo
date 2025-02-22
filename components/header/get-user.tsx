@@ -12,7 +12,7 @@ export const GetUser = () => {
   const fetchedUser = async () => {
     const response = await fetch("/api/user")
 
-    if (response.status !== 201) {
+    if (response.status !== 200) {
       clearUser()
       redirect("/login")
     }
