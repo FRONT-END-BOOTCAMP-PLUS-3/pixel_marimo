@@ -1,6 +1,10 @@
 import path from "path"
+import dotenv from "dotenv"
 import { defineConfig } from "vitest/config"
 import tsconfigPaths from "vite-tsconfig-paths"
+
+// .env 파일 로드
+dotenv.config({ path: path.resolve(__dirname, ".env.local") })
 
 export default defineConfig({
   plugins: [tsconfigPaths()],
