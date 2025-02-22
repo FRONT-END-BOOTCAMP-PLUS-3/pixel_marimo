@@ -12,9 +12,11 @@ export class PgAuthRepository implements AuthRepository {
     const hashedPassword = hashPassword(password)
 
     try {
-      return prisma.user.create({
+      const user = await prisma.user.create({
         data: { email, password: hashedPassword },
       })
+
+      return user
     } catch (error: any) {
       if (error.code === "P2002") {
         // 이메일이 이미 존재하는 경우
