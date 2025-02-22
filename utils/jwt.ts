@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken"
 
-const SECRET_KEY = process.env.MARIMO_SECRET_KEY!
-
 export const generateJWT = (id: number, email: string) => {
+  const SECRET_KEY = process.env.MARIMO_SECRET_KEY!
+
   const payload = { id, email }
   const options = { expiresIn: 12 * 60 * 60 } // 12시간 동안 유효
   const token = jwt.sign(payload, SECRET_KEY, options)
@@ -10,6 +10,8 @@ export const generateJWT = (id: number, email: string) => {
 }
 
 export const verifyJWT = (token: string) => {
+  const SECRET_KEY = process.env.MARIMO_SECRET_KEY!
+
   try {
     return jwt.verify(token, SECRET_KEY)
   } catch (error) {
