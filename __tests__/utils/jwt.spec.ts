@@ -1,6 +1,7 @@
+import { generateJWT, verifyJWT } from "@marimo/utils/jwt"
+
 import jwt from "jsonwebtoken"
 import { describe, it, expect, beforeAll } from "vitest"
-import { generateJWT, verifyJWT } from "../../utils/jwt"
 
 // 테스트 실행 전에 SECRET_KEY 환경 변수를 설정
 beforeAll(() => {

@@ -1,5 +1,6 @@
-import { describe, test, expect, beforeAll } from "vitest"
-import { hashPassword, comparePassword } from "../../utils/hash-password" // 파일 경로를 실제 경로에 맞게 수정하세요
+import { hashPassword, comparePassword } from "@marimo/utils/hash-password"
+
+import { describe, test, expect, beforeAll } from "vitest" // 파일 경로를 실제 경로에 맞게 수정하세요
 
 // 테스트 실행 전에 SECRET_KEY 환경 변수를 설정합니다.
 beforeAll(() => {

@@ -1,7 +1,9 @@
 import path from "path"
 import { defineConfig } from "vitest/config"
+import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
+  plugins: [tsconfigPaths()],
   test: {
     globals: true, // Jest 스타일의 글로벌 API 사용 가능
     coverage: {

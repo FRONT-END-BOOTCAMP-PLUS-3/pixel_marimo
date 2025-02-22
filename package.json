@@ -1,6 +1,7 @@
 {
   "name": "angry-marimo",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -45,6 +46,7 @@
     "prisma": "^6.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.6"
   }
 }

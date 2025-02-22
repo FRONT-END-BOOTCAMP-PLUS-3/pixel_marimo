@@ -1,5 +1,6 @@
+import { validateEmail } from "@marimo/utils/validate-email"
+
 import { describe, test, expect } from "vitest"
-import { validateEmail } from "../../utils/validate-email"
 
 describe("validateEmail", () => {
   test("should return true for valid email addresses", () => {

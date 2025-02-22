@@ -1,5 +1,6 @@
-import { describe, test, expect } from "vitest"
-import { isEnglishAndNumber } from "../../utils/is-eng-and-num" // 파일 경로를 실제 위치에 맞게 수정하세요
+import { isEnglishAndNumber } from "@marimo/utils/is-eng-and-num"
+
+import { describe, test, expect } from "vitest" // 파일 경로를 실제 위치에 맞게 수정하세요
 
 describe("isEnglishAndNumber", () => {
   test('should return true for strings with only English letters, numbers, "@" and "."', () => {
