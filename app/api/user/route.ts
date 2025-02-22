@@ -15,7 +15,7 @@ export async function GET() {
 
   const user = await usecase.getUser(token)
 
-  if (user === null)
+  if (!user || user === null)
     return NextResponse.json({ message: "login failed" }, { status: 401 })
 
   return NextResponse.json({ user }, { status: 200 })
