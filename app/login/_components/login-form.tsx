@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { Input } from "@marimo/components/input"
 
 import { validateEmail } from "@marimo/utils/validate-email"
-import { isEnglishAndNumber } from "@marimo/utils/isEngAndNum"
+import { isEnglishAndNumber } from "@marimo/utils/is-eng-and-num"
 
 import styles from "@marimo/app/login/_components/login-form.module.css"
 

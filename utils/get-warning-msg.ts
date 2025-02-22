@@ -1,5 +1,5 @@
 import { validateEmail } from "@marimo/utils/validate-email"
-import { isEnglishAndNumber } from "@marimo/utils/isEngAndNum"
+import { isEnglishAndNumber } from "@marimo/utils/is-eng-and-num"
 
 import {
   EMAIL_EXIST,
