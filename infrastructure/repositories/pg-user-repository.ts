@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client"
-import { User } from "@marimo/domain/entities"
+import { PrismaClient, User } from "@prisma/client"
 import { UserRepository } from "@marimo/domain/repositories"
 
 export class PgUserRepository implements UserRepository {

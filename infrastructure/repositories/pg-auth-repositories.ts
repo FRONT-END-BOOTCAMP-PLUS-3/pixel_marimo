@@ -2,8 +2,7 @@ import { AuthRepository } from "@marimo/domain/repositories/auth-repository"
 
 import { hashPassword } from "@marimo/utils/hash-password"
 
-import { PrismaClient } from "@prisma/client"
-import { User } from "@marimo/domain/entities"
+import { PrismaClient, User } from "@prisma/client"
 
 export class PgAuthRepository implements AuthRepository {
   async signUp(email: string, password: string): Promise<User> {
