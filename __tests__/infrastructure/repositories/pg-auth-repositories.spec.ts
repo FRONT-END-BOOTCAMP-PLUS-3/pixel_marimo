@@ -1,4 +1,4 @@
-import { PgAuthRepository } from "@marimo/infrastructure/repositories/pg-auth-repositories"
+import { PgAuthRepository } from "@marimo/infrastructure/repositories/pg-auth-repository"
 
 import { hashPassword } from "@marimo/utils/hash-password"
 
