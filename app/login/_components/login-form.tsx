@@ -32,7 +32,7 @@ export const LoginForm = () => {
       password &&
       validateEmail(email) &&
       isEnglishAndNumber(email) &&
-      password?.length > 8
+      password?.length > 7
     )
       return setIsValid(true)
 
