@@ -6,11 +6,17 @@ import { useEffect } from "react"
 
 import { useStore } from "@marimo/stores/use-store"
 
+const url = process.env.NEXT_PUBLIC_URL
+
 export const GetUser = () => {
   const { setUser, clearUser } = useStore()
 
   const fetchedUser = async () => {
-    const response = await fetch("/api/user")
+    const response = await fetch(`${url}/api/user`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "same-origin",
+    })
 
     if (response.status !== 200) {
       clearUser()
