@@ -6,6 +6,7 @@ const Home = () => {
       <h1>Marimo Img in Canvas</h1>
       <Canvas marimoImgSrc="images/marimo.svg" />
       <h1>Marimo Img</h1>
+      <Marimo />
     </div>
   )
 }

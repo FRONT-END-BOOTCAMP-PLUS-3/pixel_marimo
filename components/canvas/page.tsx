@@ -85,14 +85,6 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
     const x = event.clientX - rect.left - startPosition.x
     const y = event.clientY - rect.top - startPosition.y
 
-    // 마우스 위치가 이미지 범위 내인지 확인하고, 커서 스타일 설정
-    const isOverImage =
-      x > marimoPosition.x &&
-      x < marimoPosition.x + 100 &&
-      y > marimoPosition.y &&
-      y < marimoPosition.y + 100
-    canvas.style.cursor = isOverImage ? "pointer" : "default"
-
     // 이미지 드래그 위치 업데이트
     setMarimoPosition({ x, y })
   }
@@ -100,32 +92,6 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   const handleMouseUp = () => {
     setIsDragging(false)
   }
-
-  const handleAPIRequest = async () => {
-    try {
-      console.log(user?.id)
-      const response = await fetch(`/api/marimo/${user?.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
-      })
-      console.log(response)
-      if (!response.ok) {
-        throw new Error("Failed to fetch data")
-      }
-      console.log(response)
-      const data = await response.json()
-      console.log("API Response:", data)
-    } catch (error) {
-      console.error("API Error:", error)
-    }
-  }
-
-  useEffect(() => {
-    handleAPIRequest() // Call API on component mount or as needed
-  }, [user?.id])
 
   return (
     <div>
