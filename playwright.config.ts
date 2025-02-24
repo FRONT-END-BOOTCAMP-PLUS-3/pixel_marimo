@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 // .env 파일 로드
-dotenv.config({ path: `${__dirname}/.env.local` })
+dotenv.config({ path: `${__dirname}/.env` })
 
 /**
  * See https://playwright.dev/docs/test-configuration.

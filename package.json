@@ -10,7 +10,10 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:playwright": "playwright test",
-    "db:migrate": "npx prisma migrate dev --name init&npx prisma generate"
+    "db:migrate": "npx prisma migrate dev --name init&npx prisma generate",
+    "db:push" : "npx prisma db push",
+    "db:pull" : "npx prisma db pull",
+    "db:generate" : "npx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.4.0",
