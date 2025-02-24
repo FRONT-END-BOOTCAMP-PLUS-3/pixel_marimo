@@ -4,6 +4,7 @@ import { create } from "zustand"
 type TTrashItem = {
   id: number
   level: number
+  url: string
   x: number
   y: number
 }

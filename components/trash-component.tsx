@@ -10,15 +10,7 @@ import { useTrashStore } from "@marimo/stores/trash-store"
 export default function TrashComponent() {
   const { contain, title, trashItem, trashImage } = styles
 
-  // type TTrashItem = {
-  //   id: number
-  //   level: number
-  //   x: number
-  //   y: number
-  // }
-
   const workerRef = useRef<Worker>()
-  // const [trash, setTrash] = useState<TTrashItem[]>([])
   const idCounter = useRef(0)
 
   const { trashItems, addTrashItems } = useTrashStore()
@@ -36,17 +28,19 @@ export default function TrashComponent() {
       }>,
     ) => {
       // 각 포인트마다 쓰레기 아이템 생성
-      const newTrashItems = event.data.points.map((point) => ({
-        id: idCounter.current++,
-        level: Math.floor(Math.random() * 3), // 0-3 사이의 레벨
-        x: point.x * 100, // 0-100% 위치값으로 변환
-        y: point.y * 100,
-      }))
+      const newTrashItems = event.data.points.map((point) => {
+        const level = Math.floor(Math.random() * 3) // 0-2 사이의 레벨 생성
+        return {
+          id: idCounter.current++,
+          level,
+          url: getTrashImage(level), // level에 따른 이미지 URL 추가
+          x: point.x * 100, // 0-100% 위치값으로 변환
+          y: point.y * 100,
+        }
+      })
 
-      // setTrash((prev) => [...prev, ...newTrashItems])
       addTrashItems(newTrashItems)
       console.log(newTrashItems)
-      // 이부분에서 zustand 연결 필요함.
     }
 
     return () => {
