@@ -87,5 +87,14 @@
     "import/no-unresolved": "error",
 
     "@typescript-eslint/no-implied-eval": "error"
-  }
+  },
+
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+ }
 }
