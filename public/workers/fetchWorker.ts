@@ -1,4 +1,4 @@
-import pi from "@marimo/public/utils/pi"
+import pi, { calculatePi } from "@marimo/public/utils/pi"
 
 self.addEventListener("message", (event: MessageEvent<number>) => {
   console.log(`[Worker] 메시지 수신: ${event.data}번 반복`)
@@ -10,7 +10,8 @@ self.addEventListener("message", (event: MessageEvent<number>) => {
     self.close()
   }, 20000)
 
-  const result = pi(event.data)
+  const points = pi(event.data)
+  const piValue = calculatePi(points)
 
   clearTimeout(timeout)
   const endTime = performance.now()
@@ -18,5 +19,5 @@ self.addEventListener("message", (event: MessageEvent<number>) => {
     `[Worker] 연산 완료! 소요 시간: ${(endTime - startTime) / 1000}초`,
   )
 
-  postMessage(result)
+  postMessage({ points, piValue })
 })

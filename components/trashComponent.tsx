@@ -1,8 +1,12 @@
 "use client"
-import { useEffect, useRef, useState, useCallback } from "react"
-import { workerData } from "worker_threads";
+import { useEffect, useRef, useState } from "react"
 
-type TrashItem = { id: number; level: number }
+type TrashItem = {
+  id: number
+  level: number
+  x: number
+  y: number
+}
 
 export default function TrashComponent() {
   const workerRef = useRef<Worker>()
@@ -11,12 +15,25 @@ export default function TrashComponent() {
 
   useEffect(() => {
     workerRef.current = new Worker(
-      new URL("/public/workers/fetchWorker.ts", import.meta.url),
+      new URL("/public/workers/fetchWorker", import.meta.url),
+      { type: "module" },
     )
 
-    workerRef.current.onmessage = (event: MessageEvent<number | string>) => {
-      const newTrash = { id: idCounter.current++, level: event.data }
-      setTrash((prev) => [...prev, newTrash])
+    workerRef.current.onmessage = (
+      event: MessageEvent<{
+        points: Array<{ x: number; y: number; isInside: boolean }>
+        piValue: number
+      }>,
+    ) => {
+      // 각 포인트마다 쓰레기 아이템 생성
+      const newTrashItems = event.data.points.map((point) => ({
+        id: idCounter.current++,
+        level: Math.floor(Math.random() * 2), // 0-2 사이의 레벨
+        x: point.x * 100, // 0-100% 위치값으로 변환
+        y: point.y * 100,
+      }))
+
+      setTrash((prev) => [...prev, ...newTrashItems])
     }
 
     return () => {
@@ -24,38 +41,31 @@ export default function TrashComponent() {
     }
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleWork()
-    }, 2000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  const handleWork = useCallback(() => {
-    if (workerRef.current) {
-      workerRef.current.postMessage(1000000)
-    }
-  }, [])
+  const getTrashImage = (level: number) => {
+    if (level === 0) return "/images/trash_level1.png"
+    if (level === 1) return "/images/trash_level2.png"
+    return "/images/trash_level3.png"
+  }
 
   return (
-    <div>
-      <h2>쓰레기 컴포넌트 생성기</h2>
-      <button onClick={handleWork}>수동 생성</button>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
-          marginTop: "10px",
-        }}
-      >
-        {trash.map((g) => (
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-4">쓰레기 컴포넌트 생성기</h2>
+      <div className="relative w-full h-[600px] border border-gray-300 mt-4">
+        {trash.map((item) => (
           <div
-            key={g.id}
-            style={{ padding: "10px", border: "1px solid black" }}
+            key={item.id}
+            className="absolute transform -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: `${item.x}%`,
+              top: `${item.y}%`,
+              transition: "all 0.3s ease-in-out",
+            }}
           >
-            <Image url={} alt={}></Image>
+            <img
+              src={getTrashImage(item.level)}
+              alt={`Trash Level ${item.level}`}
+              className="w-12 h-12 object-contain"
+            />
           </div>
         ))}
       </div>
