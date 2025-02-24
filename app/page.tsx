@@ -1,5 +1,8 @@
-import Image from "next/image";
-import styles from "@marimo/app/page.module.css";
+import Image from "next/image"
+
+import TrashComponent from "@marimo/components/trash-component"
+
+import styles from "@marimo/app/page.module.css"
 
 const Home = () => {
   return (
@@ -36,6 +39,8 @@ const Home = () => {
             />
             Deploy now
           </a>
+
+          <TrashComponent />
           <a
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
             target="_blank"
@@ -91,7 +96,7 @@ const Home = () => {
         </a>
       </footer>
     </div>
-  );
+  )
 }
 
 export default Home
