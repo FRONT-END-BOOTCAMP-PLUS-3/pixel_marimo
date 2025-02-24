@@ -28,48 +28,34 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
     }
   }, [])
 
+  const handleCanvasResize = () => {
+    setCanvasWidth(window.innerWidth)
+    setCanvasHeight(window.innerHeight)
+  }
   useEffect(() => {
     const marimoImage = imageRef.current
     marimoImage.src = marimoImgSrc
     marimoImage.onload = () => {
-      setImageLoaded(true) // 이미지 로딩이 완료되면 상태를 업데이트
-      const canvas = canvasRef.current
-      if (canvas) {
-        const ctx = canvas.getContext("2d") // 캔버스의 2D 렌더링 컨텍스트를 얻습니다.
-        if (ctx) {
-          ctx.drawImage(
-            marimoImage,
-            marimoPosition.x,
-            marimoPosition.y,
-            100,
-            100,
-          )
-        }
-      }
+      setImageLoaded(true)
     }
-  }, [marimoImgSrc, marimoPosition.x, marimoPosition.y])
+  }, [marimoImgSrc])
 
   useEffect(() => {
-    if (canvasRef.current && imageLoaded) {
-      const ctx = canvasRef.current.getContext("2d")
+    if (imageLoaded && canvasRef.current) {
+      const canvas = canvasRef.current //<canvas> DOM 요소를 변수 canvas에 할
+      const ctx = canvas.getContext("2d") //2d 렌더링 컨텍스트 , 그림을 그리기 위한 API
       if (ctx) {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-        drawFlag(ctx, canvasWidth, canvasHeight)
         ctx.drawImage(
           imageRef.current,
           marimoPosition.x,
           marimoPosition.y,
           100,
           100,
-        ) // 로드된 이미지를 현재 위치에 그립니다.
+        )
       }
     }
-  }, [marimoPosition, canvasWidth, canvasHeight, imageLoaded])
-
-  const handleCanvasResize = () => {
-    setCanvasWidth(window.innerWidth)
-    setCanvasHeight(window.innerHeight)
-  }
+  }, [marimoPosition, imageLoaded, canvasWidth, canvasHeight])
 
   const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = canvasRef.current?.getBoundingClientRect()
@@ -96,35 +82,12 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
     const x = event.clientX - rect.left - startPosition.x
     const y = event.clientY - rect.top - startPosition.y
 
-    // 마우스 위치가 이미지 범위 내인지 확인하고, 커서 스타일 설정
-    const isOverImage =
-      x > marimoPosition.x &&
-      x < marimoPosition.x + 100 &&
-      y > marimoPosition.y &&
-      y < marimoPosition.y + 100
-    canvas.style.cursor = isOverImage ? "pointer" : "default"
-
     // 이미지 드래그 위치 업데이트
     setMarimoPosition({ x, y })
   }
 
   const handleMouseUp = () => {
     setIsDragging(false)
-  }
-
-  const drawFlag = (
-    ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-  ) => {
-    ctx.clearRect(0, 0, width, height)
-    const sectionWidth = width / 3
-    ctx.fillStyle = "#0055A4"
-    ctx.fillRect(0, 0, sectionWidth, height)
-    ctx.fillStyle = "#FFFFFF"
-    ctx.fillRect(sectionWidth, 0, sectionWidth, height)
-    ctx.fillStyle = "#EF4135"
-    ctx.fillRect(sectionWidth * 2, 0, sectionWidth, height)
   }
 
   return (

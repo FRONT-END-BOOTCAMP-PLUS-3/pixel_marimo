@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import marimo from "../../public/marimo.svg"
+import marimo from "@marimo/public/images/marimo.svg"
 
 const Marimo = () => {
   return (
