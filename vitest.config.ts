@@ -1,7 +1,13 @@
 import path from "path"
+import dotenv from "dotenv"
 import { defineConfig } from "vitest/config"
+import tsconfigPaths from "vite-tsconfig-paths"
+
+// .env 파일 로드
+dotenv.config({ path: path.resolve(__dirname, ".env.local") })
 
 export default defineConfig({
+  plugins: [tsconfigPaths()],
   test: {
     globals: true, // Jest 스타일의 글로벌 API 사용 가능
     coverage: {

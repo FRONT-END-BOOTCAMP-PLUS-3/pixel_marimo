@@ -1,6 +1,7 @@
 {
   "name": "angry-marimo",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +14,8 @@
   },
   "dependencies": {
     "@prisma/client": "^6.4.0",
+    "auto-zustand-selectors-hook": "^3.0.1",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -23,11 +26,13 @@
     "@babel/preset-env": "^7.26.0",
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.50.1",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "dotenv": "^16.4.7",
     "eslint": "^8",
     "eslint-config-next": "15.1.7",
     "eslint-config-prettier": "^9.1.0",
@@ -42,6 +47,7 @@
     "prisma": "^6.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.6"
   }
 }
