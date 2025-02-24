@@ -75,15 +75,30 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
 
   const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current
-    if (!canvas || !isDragging) return
-    //canvasRef.current를 변수 canvas에 저장하고 시작 부분에서 존재하지 않거나 드래그 상태가 아닐 경우 조기 반환(return)
+    if (!canvas) return
 
     const rect = canvas.getBoundingClientRect()
-    const x = event.clientX - rect.left - startPosition.x
-    const y = event.clientY - rect.top - startPosition.y
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
 
-    // 이미지 드래그 위치 업데이트
-    setMarimoPosition({ x, y })
+    // 드래그 상태와 무관하게 마우스 포인터 스타일과 로그를 처리
+    if (
+      x > marimoPosition.x &&
+      x < marimoPosition.x + 100 &&
+      y > marimoPosition.y &&
+      y < marimoPosition.y + 100
+    ) {
+      canvas.style.cursor = "pointer"
+    } else {
+      canvas.style.cursor = "default"
+    }
+
+    // 드래그 상태일 때만 위치 업데이트
+    if (isDragging) {
+      const newX = x - startPosition.x
+      const newY = y - startPosition.y
+      setMarimoPosition({ x: newX, y: newY })
+    }
   }
 
   const handleMouseUp = () => {
