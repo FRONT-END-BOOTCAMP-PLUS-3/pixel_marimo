@@ -15,9 +15,7 @@ self.addEventListener("message", (event: MessageEvent<number>) => {
 
   clearTimeout(timeout)
   const endTime = performance.now()
-  console.log(
-    `[Worker] 연산 완료! 소요 시간: ${(endTime - startTime) / 1000}초`,
-  )
+  console.log(`[Worker] 연산 완료! 소요 시간: ${endTime}초`)
 
   postMessage({ points, piValue })
 })

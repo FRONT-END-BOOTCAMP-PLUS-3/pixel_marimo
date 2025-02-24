@@ -1,5 +1,9 @@
 "use client"
+import Image from "next/image"
+
 import { useEffect, useRef, useState } from "react"
+
+import styles from "./trash.module.css"
 
 type TrashItem = {
   id: number
@@ -34,11 +38,22 @@ export default function TrashComponent() {
       }))
 
       setTrash((prev) => [...prev, ...newTrashItems])
+      // 이부분에서 zustand 연결 필요함.
     }
 
     return () => {
       workerRef.current?.terminate()
     }
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (workerRef.current) {
+        workerRef.current.postMessage(1) // 한 번에 1개의 포인트 생성
+      }
+    }, 20000)
+
+    return () => clearInterval(interval)
   }, [])
 
   const getTrashImage = (level: number) => {
@@ -48,23 +63,25 @@ export default function TrashComponent() {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">쓰레기 컴포넌트 생성기</h2>
-      <div className="relative w-full h-[600px] border border-gray-300 mt-4">
+    <div className={styles.contain}>
+      <h2 className={styles.title}>쓰레기 컴포넌트 생성기</h2>
+      <div className={styles.contain}>
         {trash.map((item) => (
           <div
             key={item.id}
-            className="absolute transform -translate-x-1/2 -translate-y-1/2"
+            className={styles.trashItem}
             style={{
               left: `${item.x}%`,
               top: `${item.y}%`,
               transition: "all 0.3s ease-in-out",
             }}
           >
-            <img
+            <Image
               src={getTrashImage(item.level)}
               alt={`Trash Level ${item.level}`}
-              className="w-12 h-12 object-contain"
+              className={styles.trashImage}
+              width={100}
+              height={100}
             />
           </div>
         ))}
