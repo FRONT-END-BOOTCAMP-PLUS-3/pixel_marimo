@@ -3,10 +3,13 @@
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 
+import { Suspense } from "react"
+
 import styles from "@marimo/app/pay/toss/fail/page.module.css"
 
 const FailPage = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const {
     box_section,
@@ -17,8 +20,6 @@ const FailPage = () => {
     text__right,
     button,
   } = styles
-
-  const searchParams = useSearchParams()
 
   return (
     <div id="info" className={box_section} style={{ width: "600px" }}>
@@ -60,4 +61,10 @@ const FailPage = () => {
   )
 }
 
-export default FailPage
+const SuspendedFailPage = () => (
+  <Suspense fallback={<div>로딩 중...</div>}>
+    <FailPage />
+  </Suspense>
+)
+
+export default SuspendedFailPage

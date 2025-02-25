@@ -1,5 +1,5 @@
 import { VerticalLogo } from "@marimo/components/vertical-logo"
-import { LoginForm } from "@marimo/app/login/_components/login-form"
+import SuspendedLoginForm from "@marimo/app/login/_components/login-form"
 
 import { userLogin } from "@marimo/app/login/actions/user-login"
 
@@ -12,7 +12,7 @@ const Login = () => {
     <div className={container}>
       <VerticalLogo />
       <form className={form} action={userLogin}>
-        <LoginForm />
+        <SuspendedLoginForm />
       </form>
     </div>
   )

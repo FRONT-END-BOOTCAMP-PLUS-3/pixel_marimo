@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 
 import styles from "@marimo/app/pay/toss/success/page.module.css"
 
@@ -62,8 +62,7 @@ const SuccessPage = () => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                // FIXME : marimo 어디서 받아올 수 있는지 확인 필요
-                marimoId: 1,
+                marimoId: 1, // FIXME: marimoId를 어떻게 받아올지 확인 필요
                 amount: res.balanceAmount,
                 paymentKey: res.paymentKey,
                 status: "SUCCESS",
@@ -140,4 +139,10 @@ const SuccessPage = () => {
   )
 }
 
-export default SuccessPage
+const SuspendedSuccessPage = () => (
+  <Suspense fallback={<div>로딩 중...</div>}>
+    <SuccessPage />
+  </Suspense>
+)
+
+export default SuspendedSuccessPage
