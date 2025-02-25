@@ -1,27 +1,27 @@
 "use client"
 import Image from "next/image"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 
 import styles from "./trash.module.css"
 
 import { useTrashStore } from "@marimo/stores/trash-store"
 
 export default function TrashComponent() {
-  const { contain, title, trashItem, trashImage } = styles
+  const { trashItem, trashImage } = styles
 
-  const workerRef = useRef<Worker>()
+  const worker = useRef<Worker>()
   const idCounter = useRef(0)
 
   const { trashItems, addTrashItems } = useTrashStore()
 
   useEffect(() => {
-    workerRef.current = new Worker(
+    worker.current = new Worker(
       new URL("/public/workers/fetch-worker", import.meta.url),
       { type: "module" },
     )
 
-    workerRef.current.onmessage = (
+    worker.current.onmessage = (
       event: MessageEvent<{
         points: Array<{ x: number; y: number; isInside: boolean }>
         piValue: number
@@ -44,14 +44,14 @@ export default function TrashComponent() {
     }
 
     return () => {
-      workerRef.current?.terminate()
+      worker.current?.terminate()
     }
   }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (workerRef.current) {
-        workerRef.current.postMessage(1) // 한 번에 1개의 포인트 생성
+      if (worker.current) {
+        worker.current.postMessage(1) // 한 번에 1개의 포인트 생성
       }
     }, 20000)
 
@@ -66,11 +66,12 @@ export default function TrashComponent() {
   }
 
   return (
-    <div className={contain}>
-      <h2 className={title}>쓰레기 컴포넌트 생성기</h2>
-      <div className={contain}>
+    <div>
+      <h2>쓰레기 컴포넌트 생성기</h2>
+      <div>
         {trashItems.map((item) => (
           <div
+            id="trash_item"
             key={item.id}
             className={trashItem}
             style={{
