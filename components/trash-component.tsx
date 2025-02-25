@@ -10,7 +10,7 @@ import { useTrashStore } from "@marimo/stores/trash-store"
 export default function TrashComponent() {
   const { trashItem, trashImage } = styles
 
-  const worker = useRef<Worker>()
+  const worker = useRef<Worker | null>(null)
   const idCounter = useRef(0)
 
   const { trashItems, addTrashItems } = useTrashStore()
@@ -40,7 +40,6 @@ export default function TrashComponent() {
       })
 
       addTrashItems(newTrashItems)
-      console.log(newTrashItems)
     }
 
     return () => {
