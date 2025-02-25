@@ -28,13 +28,13 @@ export async function POST(request: NextRequest) {
 
     // 응답 반환
     return NextResponse.json(authenticatedMember, { status: 200 })
-  } catch (error: any) {
-    if (error.message === "isNotComparePassword")
+  } catch (error) {
+    if (error instanceof Error && error.message === "isNotComparePassword") {
       return NextResponse.json(
         { message: "isNotComparePassword" },
         { status: 303 },
       )
-
+    }
     return NextResponse.json(
       { message: `Login Error: ${error}` },
       { status: 500 },
