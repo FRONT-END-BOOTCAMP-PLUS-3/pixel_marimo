@@ -1,11 +1,13 @@
 import { verifyJWT } from "@marimo/utils/jwt"
 
-import { vi, test, expect } from "vitest"
+import { vi, test, expect, Mock } from "vitest"
 import { UserUsecase } from "@marimo/application/usecases/auth/user-usecase"
 
 vi.mock("@marimo/utils/jwt", () => ({
   verifyJWT: vi.fn(),
 }))
+
+const mockVerifyJWT = verifyJWT as Mock
 
 test("토큰이 유효하면 사용자 정보를 반환한다", async () => {
   const mockToken = "valid-token"
@@ -14,7 +16,7 @@ test("토큰이 유효하면 사용자 정보를 반환한다", async () => {
     email: "test@example.com",
   }
 
-  verifyJWT.mockReturnValueOnce(mockUser) // 유효한 토큰이 들어왔을 때
+  mockVerifyJWT.mockReturnValueOnce(mockUser) // 유효한 토큰이 들어왔을 때
 
   const userUsecase = new UserUsecase()
   const result = await userUsecase.getUser(mockToken)
@@ -29,7 +31,7 @@ test("토큰이 유효하면 사용자 정보를 반환한다", async () => {
 test("토큰이 유효하지 않으면 null을 반환한다", async () => {
   const mockToken = "invalid-token"
 
-  verifyJWT.mockReturnValueOnce(null) // 토큰이 유효하지 않으면 null 반환
+  mockVerifyJWT.mockReturnValueOnce(null) // 토큰이 유효하지 않으면 null 반환
 
   const userUsecase = new UserUsecase()
   const result = await userUsecase.getUser(mockToken)
@@ -40,7 +42,7 @@ test("토큰이 유효하지 않으면 null을 반환한다", async () => {
 test("토큰에 사용자 정보가 없으면 null을 반환한다", async () => {
   const mockToken = "token-with-no-user"
 
-  verifyJWT.mockReturnValueOnce(null) // 토큰에 사용자가 없는 경우
+  mockVerifyJWT.mockReturnValueOnce(null) // 토큰에 사용자가 없는 경우
 
   const userUsecase = new UserUsecase()
   const result = await userUsecase.getUser(mockToken)

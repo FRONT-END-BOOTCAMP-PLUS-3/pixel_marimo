@@ -2,8 +2,8 @@ import { PgAuthRepository } from "@marimo/infrastructure/repositories/pg-auth-re
 
 import { hashPassword } from "@marimo/utils/hash-password"
 
-import { test, expect, vi } from "vitest"
 import { PrismaClient } from "@prisma/client"
+import { test, expect, vi, Mock } from "vitest"
 
 vi.mock("@prisma/client", () => {
   const mockPrisma = {
@@ -18,18 +18,22 @@ vi.mock("@marimo/utils/hash-password", () => ({
   hashPassword: vi.fn(),
 }))
 
+const mockPrisma = new PrismaClient()
+
+const mockHashPassword = hashPassword as Mock
+const create = mockPrisma.user.create as Mock
+
 test("signUp 메서드가 정상적으로 작동하는지 테스트", async () => {
   // Prisma 클라이언트와 hashPassword 모킹 설정
-  const mockPrisma = new PrismaClient()
   const mockEmail = "test@example.com"
   const mockPassword = "password123"
   const hashedPassword = "hashedPassword123"
 
   // hashPassword가 예상한 값을 반환하도록 설정
-  hashPassword.mockReturnValueOnce(hashedPassword)
+  mockHashPassword.mockReturnValueOnce(hashedPassword)
 
   // Prisma 클라이언트의 user.create 메서드가 정상적으로 작동하도록 설정
-  mockPrisma.user.create.mockResolvedValueOnce({
+  create.mockResolvedValueOnce({
     id: 1,
     email: mockEmail,
     password: hashedPassword,
@@ -62,11 +66,10 @@ test("이메일이 이미 존재할 경우 예외를 던지는지 테스트", as
   const hashedPassword = "hashedPassword123"
 
   // hashPassword가 예상한 값을 반환하도록 설정
-  hashPassword.mockReturnValueOnce(hashedPassword)
+  mockHashPassword.mockReturnValueOnce(hashedPassword)
 
   // Prisma 클라이언트의 user.create가 오류를 던지도록 설정 (P2002 - 이메일 중복)
-  const mockPrisma = new PrismaClient()
-  mockPrisma.user.create.mockRejectedValueOnce({
+  create.mockRejectedValueOnce({
     code: "P2002",
     message: "Unique constraint failed on the fields: (`email`)",
   })
@@ -88,11 +91,10 @@ test("회원가입 실패 시 일반 오류가 던져지는지 테스트", async
   const hashedPassword = "hashedPassword123"
 
   // hashPassword가 예상한 값을 반환하도록 설정
-  hashPassword.mockReturnValueOnce(hashedPassword)
+  mockHashPassword.mockReturnValueOnce(hashedPassword)
 
   // Prisma 클라이언트의 user.create가 다른 오류를 던지도록 설정
-  const mockPrisma = new PrismaClient()
-  mockPrisma.user.create.mockRejectedValueOnce(new Error("Unexpected error"))
+  create.mockRejectedValueOnce(new Error("Unexpected error"))
 
   const pgAuthRepo = new PgAuthRepository()
 
