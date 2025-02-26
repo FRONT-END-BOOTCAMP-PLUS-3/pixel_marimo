@@ -15,6 +15,7 @@ model User {
   updatedAt DateTime  @updatedAt
   history   History[]
   marimos   Marimo[]
+  orders    Order[]
 
   @@map("users")
 }
@@ -31,6 +32,7 @@ model Marimo {
   history   History[]
   user      User      @relation(fields: [userId], references: [id])
   object    Object[]
+  orders    Order[]
 
   @@map("marimos")
 }
@@ -50,14 +52,30 @@ model Object {
 
 model History {
   id        Int      @id @default(autoincrement())
-  userid    Int
-  marimoid  Int
   content   String
   color     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  marimo    Marimo   @relation(fields: [marimoid], references: [id])
-  user      User     @relation(fields: [userid], references: [id])
+  marimoId  Int
+  userId    Int
+  marimo    Marimo   @relation(fields: [marimoId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@map("histories")
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  marimoId    Int
+  status      String
+  amount      Int
+  paymentKey  String
+  payResponse Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  marimo      Marimo   @relation(fields: [marimoId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("orders")
 }

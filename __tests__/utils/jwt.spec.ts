@@ -12,7 +12,6 @@ describe("JWT Generation and Verification", () => {
   it("should generate a valid JWT token", () => {
     const id = 1
     const email = "test@example.com"
-    console.log(process.env.MARIMO_SECRET_KEY)
     const token = generateJWT(id, email)
 
     expect(typeof token).toBe("string")

@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     config.resolve.alias["@marimo"] = path.resolve(__dirname, "app")
     return config
   },
+  images: {
+    domains: ["static.toss.im"],
+  },
 }
 
 export default nextConfig

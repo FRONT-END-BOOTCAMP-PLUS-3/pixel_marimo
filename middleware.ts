@@ -6,6 +6,10 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value
   const { pathname } = req.nextUrl
 
+  if (pathname === "/pay/toss/success" || pathname === "/pay/toss/fail") {
+    return NextResponse.next()
+  }
+
   if (!token && pathname !== "/login") {
     return NextResponse.redirect(new URL("/login", req.url))
   }
@@ -26,7 +30,8 @@ export const config = {
      * - favicon.ico (favicon file)
      * - /api (API requests)
      * - Image files (svg, png, jpg, jpeg, gif, webp)
+     * - /pay (URLs starting with /pay)
      */
-    "/((?!_next/static|_next/image|favicon.ico|api|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|^/pay).*)",
   ],
 }

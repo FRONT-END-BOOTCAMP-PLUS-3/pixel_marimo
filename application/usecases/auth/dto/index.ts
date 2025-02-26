@@ -1,3 +1,3 @@
-export * from "@marimo/application/usecases/auth/dto/UserLoginDto"
-export * from "@marimo/application/usecases/auth/dto/UserAuthenticatedDto"
-export * from "@marimo/application/usecases/auth/dto/UserGetDto"
+export * from "@marimo/application/usecases/auth/dto/user-login-dto"
+export * from "@marimo/application/usecases/auth/dto/user-authenticated-dto"
+export * from "@marimo/application/usecases/auth/dto/user-get-dto"
