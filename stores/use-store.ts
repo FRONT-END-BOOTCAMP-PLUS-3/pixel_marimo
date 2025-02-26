@@ -8,6 +8,7 @@ import {
   createJSONStorage,
   subscribeWithSelector,
 } from "zustand/middleware"
+import { TrashStore, useTrashStore } from "./trash-store"
 
 const storage: StateStorage = {
   removeItem: async (name: string): Promise<void> => {
@@ -22,11 +23,11 @@ const storage: StateStorage = {
   },
 }
 
-export type State = TUserSlice
+export type State = TUserSlice & TrashStore
 
 export const useStore = create<State>()(
   subscribeWithSelector(
-    persist((...a) => ({ ...createUserSlice(...a) }), {
+    persist((...a) => ({ ...createUserSlice(...a), ...useTrashStore(...a) }), {
       version: 144,
       name: "angry_marimo",
       storage: createJSONStorage(() => storage),

@@ -3,9 +3,10 @@ import Image from "next/image"
 
 import { useEffect, useRef } from "react"
 
-import styles from "./trash.module.css"
+import styles from "@marimo/components/trash/trash.module.css"
 
-import { useTrashStore } from "@marimo/stores/trash-store"
+import { useStore } from "@marimo/stores/use-store"
+import { useInterval } from "@marimo/hooks/useInterval"
 
 export default function TrashComponent() {
   const { trashItem, trashImage } = styles
@@ -13,11 +14,11 @@ export default function TrashComponent() {
   const worker = useRef<Worker | null>(null)
   const idCounter = useRef(0)
 
-  const { trashItems, addTrashItems } = useTrashStore()
+  const { trashItems, addTrashItems } = useStore()
 
   useEffect(() => {
     worker.current = new Worker(
-      new URL("/public/workers/fetch-worker", import.meta.url),
+      new URL("/public/workers/trash-worker", import.meta.url),
       { type: "module" },
     )
 
@@ -40,6 +41,7 @@ export default function TrashComponent() {
       })
 
       addTrashItems(newTrashItems)
+      console.log("trash", newTrashItems)
     }
 
     return () => {
@@ -47,15 +49,12 @@ export default function TrashComponent() {
     }
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (worker.current) {
+    useInterval(() => {
+        if (worker.current) {
         worker.current.postMessage(1) // 한 번에 1개의 포인트 생성
       }
     }, 20000)
-
-    return () => clearInterval(interval)
-  }, [])
+  
 
   const getTrashImage = (level: number) => {
     if (level === 0) return "/images/trash_level1.png"

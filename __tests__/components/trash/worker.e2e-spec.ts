@@ -10,7 +10,7 @@ test.describe("TrashComponent Web Worker 테스트", () => {
 
     const isTerminated = await page.evaluate(() => {
       return new Promise((resolve) => {
-        const worker = new Worker("/public/workers/fetch-worker", {
+        const worker = new Worker("/public/workers/trash-worker", {
           type: "module",
         })
 

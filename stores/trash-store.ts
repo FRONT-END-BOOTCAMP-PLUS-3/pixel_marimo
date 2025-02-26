@@ -1,7 +1,7 @@
-// stores/trash-store.ts
-import { create } from "zustand"
+import { create, StateCreator } from "zustand"
+import { State } from "./use-store"
 
-type TTrashItem = {
+export type TTrashItem = {
   id: number
   level: number
   url: string
@@ -9,12 +9,10 @@ type TTrashItem = {
   y: number
 }
 
-interface TrashStore {
-  // State
+export interface TrashStore {
   trashItems: TTrashItem[]
   idCounter: number
 
-  // Actions
   addTrashItems: (items: Omit<TTrashItem, "id">[]) => void
   removeTrashItem: (id: number) => void
   clearAllTrash: () => void
@@ -26,54 +24,57 @@ interface TrashStore {
   getTrashByLevel: (level: number) => TTrashItem[]
 }
 
-export const useTrashStore = create<TrashStore>((set, get) => ({
-  // Initial state
+export const useTrashStore: StateCreator<
+  Partial<State>,
+  [],
+  [],
+  TrashStore
+> = (set, get) => ({
   trashItems: [],
   idCounter: 0,
 
-  // Actions
   addTrashItems: (items) => {
     set((state) => {
-      const newItems = items.map((item) => ({
+      const currentIdCounter = state.idCounter ?? 0 // undefined 방지
+      const newItems = items.map((item, index) => ({
         ...item,
-        id: state.idCounter + items.indexOf(item),
+        id: currentIdCounter + index, // 고유 ID 생성
       }))
 
       return {
-        trashItems: [...state.trashItems, ...newItems],
-        idCounter: state.idCounter + items.length,
+        trashItems: [...(state.trashItems || []), ...newItems], // undefined 방지
+        idCounter: currentIdCounter + items.length, // ID 카운터 업데이트
       }
     })
   },
 
   removeTrashItem: (id) => {
     set((state) => ({
-      trashItems: state.trashItems.filter((item) => item.id !== id),
+      trashItems: (state.trashItems || []).filter((item) => item.id !== id),
     }))
   },
 
   clearAllTrash: () => {
-    set({ trashItems: [] })
+    set({ trashItems: [], idCounter: 0 })
   },
 
   updateTrashItem: (id, updates) => {
     set((state) => ({
-      trashItems: state.trashItems.map((item) =>
-        item.id === id ? { ...item, ...updates } : item,
+      trashItems: (state.trashItems || []).map((item) =>
+        item.id === id ? { ...item, ...updates } : item
       ),
     }))
   },
 
   getTrashById: (id) => {
-    return get().trashItems.find((item) => item.id === id)
+    return (get().trashItems || []).find((item) => item.id === id)
   },
 
   getTrashByLevel: (level) => {
-    return get().trashItems.filter((item) => item.level === level)
+    return (get().trashItems || []).filter((item) => item.level === level)
   },
-}))
+})
 
-// Optional-select: 나중에 필요할때 사용
 export const selectAllTrash = (state: TrashStore) => state.trashItems
 export const selectTrashCount = (state: TrashStore) => state.trashItems.length
 export const selectTrashByLevel = (level: number) => (state: TrashStore) =>

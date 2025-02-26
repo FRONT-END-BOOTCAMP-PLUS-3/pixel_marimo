@@ -1,4 +1,4 @@
-import pi, { calculatePi } from "@marimo/public/utils/pi"
+import randomLocation, { containerInside } from "@marimo/public/utils/random-location"
 
 self.addEventListener("message", (event: MessageEvent<number>) => {
   if (typeof event.data !== "number" || event.data <= 0) {
@@ -17,8 +17,8 @@ self.addEventListener("message", (event: MessageEvent<number>) => {
   }, 20000)
 
   try {
-    const points = pi(event.data)
-    const piValue = calculatePi(points)
+    const points = randomLocation(event.data)
+    const piValue = containerInside(points)
 
     clearTimeout(timeout) // 타임아웃 방지
 
