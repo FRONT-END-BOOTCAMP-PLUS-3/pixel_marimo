@@ -5,9 +5,9 @@ import { MarimoRepository } from "@marimo/domain/repositories"
 const prisma = new PrismaClient()
 
 export class PgMarimoRepository implements MarimoRepository {
-  async findAliveMarimos(userId: number): Promise<Marimo | null> {
+  async findAliveMarimo(userId: number): Promise<Marimo | null> {
     try {
-      const marimos = await prisma.marimo.findFirst({
+      const AliveMarimo = await prisma.marimo.findFirst({
         where: {
           userId: userId,
           status: {
@@ -18,7 +18,8 @@ export class PgMarimoRepository implements MarimoRepository {
           object: true, // 관련된 object 정보도 함께 가져옵니다.
         },
       })
-      return marimos ?? null
+      console.log("내가 찾은 AliveMairmo 는", AliveMarimo)
+      return AliveMarimo
     } catch (error) {
       console.error("Error fetching alive marimos:", error)
       throw error
