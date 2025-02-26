@@ -7,6 +7,7 @@ import styles from "@marimo/components/trash/trash.module.css"
 
 import { useStore } from "@marimo/stores/use-store"
 import { useInterval } from "@marimo/hooks/useInterval"
+import { getTrashImage } from "@marimo/public/utils/level-image"
 
 export default function TrashComponent() {
   const { trashItem, trashImage } = styles
@@ -55,14 +56,6 @@ export default function TrashComponent() {
       }
     }, 20000)
   
-
-  const getTrashImage = (level: number) => {
-    if (level === 0) return "/images/trash_level1.png"
-    if (level === 1) return "/images/trash_level2.png"
-    if (level === 2) return "/images/trash_level3.png"
-    return "/images/trash_level3.png"
-  }
-
   return (
     <div>
       <h2>쓰레기 컴포넌트 생성기</h2>
