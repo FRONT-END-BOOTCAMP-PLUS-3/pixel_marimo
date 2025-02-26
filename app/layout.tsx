@@ -1,8 +1,6 @@
-import { Header } from "@marimo/components/header"
-
 import type { Metadata } from "next"
 
-import "./globals.css"
+import "@marimo/app/globals.css"
 
 export const metadata: Metadata = {
   title: "Angry Marimo",
@@ -17,10 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
