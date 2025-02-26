@@ -5,9 +5,7 @@ test.describe("드롭다운 테스트", () => {
     // 로그인 상태를 위한 쿠키 설정 (예제)
     await page
       .context()
-      .addCookies([
-        { name: "token", value: "test-token", url: "http://localhost:3000" },
-      ])
+      .addCookies([{ name: "token", value: "test-token", url: "/" }])
 
     await page.goto("/")
   })
@@ -22,12 +20,12 @@ test.describe("드롭다운 테스트", () => {
   }) => {
     await page.locator("button", { hasText: "님" }).click()
     await page.locator("text=마리모팀 후원하기").click()
-    await expect(page).toHaveURL("http://localhost:3000/pay")
+    await expect(page).toHaveURL("/")
   })
 
   test("'로그아웃' 버튼 클릭 시 /login으로 이동해야 한다", async ({ page }) => {
     await page.locator("button", { hasText: "님" }).click()
     await page.locator("text=로그아웃").click()
-    await expect(page).toHaveURL("http://localhost:3000/login")
+    await expect(page).toHaveURL("/")
   })
 })
