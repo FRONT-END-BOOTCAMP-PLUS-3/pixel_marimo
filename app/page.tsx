@@ -1,4 +1,4 @@
-import TrashComponent from "@marimo/components/trash-component"
+import TrashComponent from "@marimo/components/trash/trash-component"
 
 import styles from "@marimo/app/page.module.css"
 

@@ -3,11 +3,13 @@ import Image from "next/image"
 
 import { useEffect, useRef } from "react"
 
+import { useInterval } from "@marimo/hooks/useInterval"
+
+import { getTrashImage } from "@marimo/public/utils/level-image"
+
 import styles from "@marimo/components/trash/trash.module.css"
 
 import { useStore } from "@marimo/stores/use-store"
-import { useInterval } from "@marimo/hooks/useInterval"
-import { getTrashImage } from "@marimo/public/utils/level-image"
 
 export default function TrashComponent() {
   const { trashItem, trashImage } = styles
@@ -50,12 +52,12 @@ export default function TrashComponent() {
     }
   }, [])
 
-    useInterval(() => {
-        if (worker.current) {
-        worker.current.postMessage(1) // 한 번에 1개의 포인트 생성
-      }
-    }, 20000)
-  
+  useInterval(() => {
+    if (worker.current) {
+      worker.current.postMessage(1) // 한 번에 1개의 포인트 생성
+    }
+  }, 20000)
+
   return (
     <div>
       <h2>쓰레기 컴포넌트 생성기</h2>
