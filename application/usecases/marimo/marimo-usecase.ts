@@ -33,7 +33,7 @@ export class MarimoUsecase {
     const defaultMarimo = {
       userId: userId,
       size: 100, // Default size
-      rect: JSON.stringify({ x: 0, y: 0 }), // Default position
+      rect: JSON.stringify({ x: 50, y: 50 }), // Default position
       color: "dark_green", // Default color
       status: "angry", // Default status
     }
