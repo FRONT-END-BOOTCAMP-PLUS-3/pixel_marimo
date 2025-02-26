@@ -18,6 +18,7 @@ import { useStore } from "@marimo/stores/use-store"
 import {
   loadTossPayments,
   TossPaymentsWidgets,
+  WidgetAgreementWidget,
   WidgetPaymentMethodWidget,
 } from "@tosspayments/tosspayments-sdk"
 
@@ -51,6 +52,9 @@ export const PayForm = () => {
   const [ready, setReady] = useState(false)
   const [widgets, setWidgets] = useState<TossPaymentsWidgets | null>(null)
   const [renderUi, setRenderUi] = useState<WidgetPaymentMethodWidget | null>(
+    null,
+  )
+  const [agreementUi, setAgreementUi] = useState<WidgetAgreementWidget | null>(
     null,
   )
 
@@ -102,17 +106,10 @@ export const PayForm = () => {
     async function fetchPaymentWidgets() {
       try {
         const tossPayments = await loadTossPayments(clientKey)
-
         const widgets = tossPayments.widgets({
           customerKey,
         })
-
         setWidgets(widgets)
-
-        await widgets.renderAgreement({
-          selector: "#agreement",
-          variantKey: "AGREEMENT",
-        })
       } catch (error) {
         console.error("Error fetching payment widget:", error)
       }
@@ -140,10 +137,21 @@ export const PayForm = () => {
         })
 
         setRenderUi(newUi)
+
+        const newAgreement = await widgets.renderAgreement({
+          selector: "#agreement",
+          variantKey: "AGREEMENT",
+        })
+
+        setAgreementUi(newAgreement)
       } catch (error) {
         if (renderUi) {
           renderUi.destroy()
           setRenderUi(null)
+        }
+        if (agreementUi) {
+          agreementUi.destroy()
+          setAgreementUi(null)
         }
         console.error(error)
       }
@@ -156,6 +164,9 @@ export const PayForm = () => {
     return () => {
       if (renderUi) {
         renderUi.destroy().then(() => setRenderUi(null))
+      }
+      if (agreementUi) {
+        agreementUi.destroy().then(() => setAgreementUi(null))
       }
     }
   }, [widgets, amount])
