@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 
 import { Suspense } from "react"
 
-import styles from "@marimo/app/pay/toss/fail/page.module.css"
+import styles from "@marimo/app/(main)/pay/toss/fail/page.module.css"
 
 const FailPage = () => {
   const router = useRouter()

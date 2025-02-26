@@ -12,7 +12,7 @@ import { formatMoney } from "@marimo/utils/format-money"
 import { extractNumber } from "@marimo/utils/extract-number"
 import { uuidGenerator } from "@marimo/utils/uuid_generator"
 
-import styles from "@marimo/app/pay/_components/pay-form.module.css"
+import styles from "@marimo/app/(main)/pay/_components/pay-form.module.css"
 
 import { useStore } from "@marimo/stores/use-store"
 import {
