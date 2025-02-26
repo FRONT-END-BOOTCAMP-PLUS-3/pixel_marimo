@@ -9,7 +9,7 @@ const FeedbackButton = () => {
   const { container, button, balloon, triangle } = styles
 
   return (
-    <div className={container}>
+    <div aria-label="feedback_id" className={container}>
       <Link href={FEED_BACK_BUTTON} target="_blank">
         <div className={balloon}>
           <p>Click me!</p>
