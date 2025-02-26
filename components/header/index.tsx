@@ -1,9 +1,14 @@
-import { GetUser } from "@marimo/components/header/get-user"
+import { Dropdown } from "@marimo/components/header/dropdown"
+import { HorizontalLogo } from "@marimo/components/header/horizontal-logo"
+
+import styles from "@marimo/components/header/index.module.css"
 
 export const Header = () => {
+  const { header } = styles
   return (
-    <div>
-      <GetUser />
-    </div>
+    <header className={header}>
+      <HorizontalLogo />
+      <Dropdown />
+    </header>
   )
 }

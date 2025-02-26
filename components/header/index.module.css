@@ -1,0 +1,18 @@
+.header {
+    width: 100vw;
+    height: 90px;
+
+    padding: 1rem 2rem;
+
+    background-color: var(--base-white);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+
+    position: fixed;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    box-sizing: border-box;
+}
