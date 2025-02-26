@@ -108,6 +108,32 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
     setIsDragging(false)
   }
 
+  const fetchMarimo = async () => {
+    try {
+      console.log(user?.id)
+      const response = await fetch(`/api/marimo/${user?.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      })
+      console.log(response)
+      if (!response.ok) {
+        throw new Error("Failed to fetch data")
+      }
+      console.log(response)
+      const data = await response.json()
+      console.log("API Response:", data)
+    } catch (error) {
+      console.error("API Error:", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchMarimo()
+  }, [user?.id])
+
   return (
     <div>
       <canvas

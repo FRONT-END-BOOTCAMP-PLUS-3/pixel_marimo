@@ -1,5 +1,4 @@
 import { PrismaClient, Marimo } from "@prisma/client"
-
 import { MarimoRepository } from "@marimo/domain/repositories"
 
 export class MarimoUsecase {
@@ -9,28 +8,28 @@ export class MarimoUsecase {
     this.prisma = new PrismaClient()
   }
 
-  async ensureActiveMarimo(userId: number): Promise<Marimo | null> {
+  async ensureAliveMarimo(userId: number): Promise<Marimo | null> {
     try {
-      const marimos = await this.marimoRepository.findAliveMarimos(userId)
+      console.log("살아있는 마리모를 찾는 중입니다.")
+      const aliveMairmo = await this.marimoRepository.findAliveMarimo(userId)
 
       // Check if all marimos are "dead"
-      if (
-        marimos?.length === 0 ||
-        marimos?.every((marimo) => marimo.status === "dead")
-      ) {
+      if (aliveMairmo === null) {
         // Create a default Marimo if all are dead
+        console.log("새 마리모를 만들겠습니다.")
         return await this.createDefaultMarimo(userId)
       }
 
-      // Return the first alive marimo found (as an example)
-      return marimos?.find((marimo) => marimo.status !== "dead") || null
+      return aliveMairmo
     } catch (error) {
-      console.error("Error ensuring active Marimo:", error)
+      console.error("Error ensuring Alive Marimo:", error)
       throw error
     }
   }
 
   private async createDefaultMarimo(userId: number): Promise<Marimo> {
+    console.log("새 마리모를 만드는 중입니다.")
+
     const defaultMarimo = {
       userId: userId,
       size: 100, // Default size
@@ -38,6 +37,7 @@ export class MarimoUsecase {
       color: "dark_green", // Default color
       status: "angry", // Default status
     }
+    console.log("새 마리모를 만들었습니다.")
 
     return await this.prisma.marimo.create({
       data: defaultMarimo,
