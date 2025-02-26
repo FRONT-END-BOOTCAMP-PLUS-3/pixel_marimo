@@ -1,7 +1,6 @@
 import TrashComponent from "@marimo/components/trash/trash-component"
 
-import styles from "@marimo/app/page.module.css"
-
+import styles from "@marimo/app/(main)/page.module.css"
 const Home = () => {
   return (
     <div className={styles.page}>
