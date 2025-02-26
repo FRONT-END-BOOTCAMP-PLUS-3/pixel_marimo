@@ -168,6 +168,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+  padding-top: 100px;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
