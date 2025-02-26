@@ -6,6 +6,15 @@ import styles from "./page.module.css"
 
 import { useStore } from "@marimo/stores/use-store"
 
+interface MarimoData {
+  id: number
+  userId: number
+  size: number
+  rect: string
+  color: string
+  status: string
+}
+
 interface CanvasProps {
   marimoImgSrc: string
 }
@@ -23,6 +32,7 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 }) // 드래그 시작 위치 저장
   const imageRef = useRef(new Image()) // 이미지 객체를 참조
   const { user } = useStore()
+  const [marimoData, setMarimoData] = useState<MarimoData | null>(null) // 마리모 데이터를 상태로 저장
 
   useEffect(() => {
     window.addEventListener("resize", handleCanvasResize)
@@ -110,7 +120,6 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
 
   const fetchMarimo = async () => {
     try {
-      console.log(user?.id)
       const response = await fetch(`/api/marimo/${user?.id}`, {
         method: "POST",
         headers: {
@@ -122,9 +131,13 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
       if (!response.ok) {
         throw new Error("Failed to fetch data")
       }
-      console.log(response)
       const data = await response.json()
       console.log("API Response:", data)
+
+      // 마리모 데이터를 상태에 저장
+      setMarimoData({
+        ...data,
+      })
     } catch (error) {
       console.error("API Error:", error)
     }
@@ -133,6 +146,10 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   useEffect(() => {
     fetchMarimo()
   }, [user?.id])
+
+  useEffect(() => {
+    console.log("marimoData 는 ", marimoData)
+  }, [marimoData])
 
   return (
     <div>
