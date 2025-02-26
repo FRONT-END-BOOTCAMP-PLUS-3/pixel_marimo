@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from "react"
 
 import styles from "./page.module.css"
 
+import { useStore } from "@marimo/stores/use-store"
+
 interface CanvasProps {
   marimoImgSrc: string
 }
@@ -20,6 +22,7 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   const [isDragging, setIsDragging] = useState(false)
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 }) // 드래그 시작 위치 저장
   const imageRef = useRef(new Image()) // 이미지 객체를 참조
+  const { user } = useStore()
 
   useEffect(() => {
     window.addEventListener("resize", handleCanvasResize)
@@ -104,6 +107,32 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   const handleMouseUp = () => {
     setIsDragging(false)
   }
+
+  const handleAPIRequest = async () => {
+    try {
+      console.log(user?.id)
+      const response = await fetch(`/api/marimo/${user?.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      })
+      console.log(response)
+      if (!response.ok) {
+        throw new Error("Failed to fetch data")
+      }
+      console.log(response)
+      const data = await response.json()
+      console.log("API Response:", data)
+    } catch (error) {
+      console.error("API Error:", error)
+    }
+  }
+
+  useEffect(() => {
+    handleAPIRequest() // Call API on component mount or as needed
+  }, [user?.id])
 
   return (
     <div>
