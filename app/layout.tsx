@@ -1,3 +1,5 @@
+import FeedbackButton from "@marimo/components/feedback-btn/feedback-btn"
+
 import type { Metadata } from "next"
 
 import "@marimo/app/globals.css"
@@ -15,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <FeedbackButton />
+      </body>
     </html>
   )
 }
