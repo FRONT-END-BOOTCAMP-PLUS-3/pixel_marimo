@@ -1,11 +1,11 @@
 .dropdown {
     margin: 0.5rem 1.5rem 0.5rem 0.5rem;
     padding: 1rem 1.5rem;
-    /* border: 1px solid var(--secondary-color); */
+
     border-radius: 1rem;
     
 
-    background-color: var(--base-white);
+    background-color: var(--background);
     box-shadow: 0 3px 6px rgba(0,0,0,0.14);
 
     position: absolute;
@@ -33,4 +33,14 @@
     justify-content: center;
 
     cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dropdown {
+    border: 1px solid gray;
+  }
+
+  .hr {
+    border-bottom: 1px solid gray;
+  }
 }

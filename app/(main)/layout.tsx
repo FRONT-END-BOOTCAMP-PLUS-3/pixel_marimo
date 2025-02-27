@@ -9,12 +9,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <GetUser />
-        <Header />
-        <main>{children}</main>
-      </body>
-    </html>
+    <>
+      <GetUser />
+      <Header />
+      <main>{children}</main>
+    </>
   )
 }

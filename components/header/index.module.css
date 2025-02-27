@@ -4,7 +4,7 @@
 
     padding: 1rem 2rem;
 
-    background-color: var(--base-white);
+    background-color: var(--background);
     box-shadow: 0 3px 6px rgba(0,0,0,0.08);
 
     position: fixed;
@@ -15,4 +15,10 @@
     align-items: center;
 
     box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    border-bottom: 1px solid gray;
+  }
 }
