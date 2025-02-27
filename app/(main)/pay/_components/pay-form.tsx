@@ -127,7 +127,10 @@ export const PayForm = () => {
       }
 
       try {
+        setReady(false)
+
         await renderUi?.destroy()
+        await agreementUi?.destroy()
 
         await widgets.setAmount(amount)
 
@@ -154,6 +157,8 @@ export const PayForm = () => {
           setAgreementUi(null)
         }
         console.error(error)
+
+        setReady(false)
       }
 
       setReady(true)
@@ -180,9 +185,7 @@ export const PayForm = () => {
           style={{
             width: "0px",
             height: "0px",
-
             padding: "0px",
-
             opacity: "0",
           }}
         />
