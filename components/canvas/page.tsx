@@ -115,6 +115,13 @@ const Canvas: React.FC<CanvasProps> = ({ marimoImgSrc }) => {
   //   drawTrashOnCanvas() // 캔버스에 그리기
   // }, [loadedTrashImages, canvasWidth, canvasHeight])
 
+  useEffect(() => {
+    loadMarimoImage()
+  }, [marimoImgSrc])
+
+  useEffect(() => {
+    drawMarimoOnCanvas()
+  }, [marimoPosition, imageLoaded, canvasWidth, canvasHeight])
   const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = canvasRef.current?.getBoundingClientRect()
     if (!rect) return
