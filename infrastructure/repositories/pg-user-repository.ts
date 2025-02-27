@@ -4,25 +4,29 @@ import { UserRepository } from "@marimo/domain/repositories"
 export class PgUserRepository implements UserRepository {
   async findByEmail(email: string): Promise<User | null> {
     const prisma = new PrismaClient()
-
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    })
-
-    return user ?? null
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      })
+      return user ?? null
+    } finally {
+      await prisma.$disconnect()
+    }
   }
 
   async findById(id: number): Promise<User | null> {
     const prisma = new PrismaClient()
-
-    const user = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    })
-
-    return user ?? null
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id,
+        },
+      })
+      return user ?? null
+    } finally {
+      await prisma.$disconnect()
+    }
   }
 }

@@ -23,6 +23,8 @@ export class PgOrderRepository implements OrderRepository {
       return newOrder || null
     } catch (error) {
       throw new Error(`PgOrderRepository.create Error ====> \n ${error}`)
+    } finally {
+      await this.prisma.$disconnect()
     }
   }
 
@@ -40,6 +42,8 @@ export class PgOrderRepository implements OrderRepository {
       return newOrder || null
     } catch (error) {
       throw new Error(`PgOrderRepository.update Error ====> \n ${error}`)
+    } finally {
+      await this.prisma.$disconnect()
     }
   }
 
@@ -52,6 +56,8 @@ export class PgOrderRepository implements OrderRepository {
       return newOrder || null
     } catch (error) {
       throw new Error(`PgOrderRepository.findById Error ====> \n ${error}`)
+    } finally {
+      await this.prisma.$disconnect()
     }
   }
 
@@ -64,6 +70,8 @@ export class PgOrderRepository implements OrderRepository {
       return newOrder || null
     } catch (error) {
       throw new Error(`PgOrderRepository.findById Error ====> \n ${error}`)
+    } finally {
+      await this.prisma.$disconnect()
     }
   }
 
@@ -78,6 +86,8 @@ export class PgOrderRepository implements OrderRepository {
       return newOrder || null
     } catch (error) {
       throw new Error(`PgOrderRepository.findById Error ====> \n ${error}`)
+    } finally {
+      await this.prisma.$disconnect()
     }
   }
 }

@@ -23,6 +23,8 @@ export class PgAuthRepository implements AuthRepository {
       } else {
         throw new Error("회원가입 실패:", error)
       }
+    } finally {
+      await prisma.$disconnect()
     }
   }
 }
