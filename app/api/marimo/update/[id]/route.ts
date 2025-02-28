@@ -7,7 +7,7 @@ import { MarimoUsecase } from "@marimo/application/usecases/marimo/marimo-usecas
 const marimoRepository: MarimoRepository = new PgMarimoRepository()
 const marimoUsecase = new MarimoUsecase(marimoRepository)
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const marimoData = await req.json()
   const marimoId = marimoData.id
 

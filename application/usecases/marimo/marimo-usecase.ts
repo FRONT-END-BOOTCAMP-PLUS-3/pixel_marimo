@@ -34,9 +34,11 @@ export class MarimoUsecase {
       status: "angry", // Default status
     }
 
-    return await this.prisma.marimo.create({
-      data: defaultMarimo,
-    })
+    return this.marimoRepository.createDefaultMarimo(defaultMarimo)
+
+    // return this.prisma.marimo.create({
+    //   data: defaultMarimo,
+    // })
   }
 
   async updateMarimo(marimoData: Marimo) {
