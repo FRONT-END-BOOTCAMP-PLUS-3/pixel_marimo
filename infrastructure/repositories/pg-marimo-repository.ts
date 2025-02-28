@@ -18,7 +18,6 @@ export class PgMarimoRepository implements MarimoRepository {
           object: true, // 관련된 object 정보도 함께 가져옵니다.
         },
       })
-      console.log("내가 찾은 AliveMairmo 는", AliveMarimo)
       return AliveMarimo
     } catch (error) {
       console.error("Error fetching alive marimos:", error)
@@ -40,6 +39,23 @@ export class PgMarimoRepository implements MarimoRepository {
       return updatedMarimo
     } catch (error) {
       console.error("Error updating marimo data:", error)
+      throw error
+    }
+  }
+  async createDefaultMarimo(defaultMarimo: {
+    userId: number
+    size: number
+    rect: string
+    color: string
+    status: string
+  }): Promise<Marimo> {
+    try {
+      const newMarimo = await prisma.marimo.create({
+        data: defaultMarimo,
+      })
+      return newMarimo
+    } catch (error) {
+      console.error("Error creating default marimo:", error)
       throw error
     }
   }
