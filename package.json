@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "npx prettier --write .&next lint",
     "test": "vitest run",
     "test:playwright": "playwright test",
     "db:migrate": "npx prisma migrate dev --name init&npx prisma generate",
