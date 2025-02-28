@@ -11,6 +11,12 @@ const Login = () => {
   return (
     <div className={container}>
       <VerticalLogo />
+      <p>가입 한 적 없어도 놀라지 말아요!</p>
+      <p>
+        다른 정보를 입력 할 필요없이 이메일, 패스워드를 입력하면 자동으로
+        회원가입을 합니다 🥳
+      </p>
+      <p>앞으로 소셜 로그인 등 다양한 로그인 방법을 만들어 볼께요!</p>
       <form className={form} action={userLogin}>
         <SuspendedLoginForm />
       </form>
