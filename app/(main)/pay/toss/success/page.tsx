@@ -43,7 +43,6 @@ const SuccessPage = () => {
       const json = await response.json()
 
       if (!response.ok) {
-        console.log("here")
         throw { message: json.message, code: json.code }
       }
 

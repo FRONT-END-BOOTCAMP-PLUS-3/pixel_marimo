@@ -180,15 +180,7 @@ export const PayForm = () => {
     <div className={wrapper}>
       <div>
         {/* 결제 UI */}
-        <div
-          id="payment-method"
-          style={{
-            width: "0px",
-            height: "0px",
-            padding: "0px",
-            opacity: "0",
-          }}
-        />
+        <div id="payment-method" />
 
         <div className={p_wrapper}>
           <p>💡 실제로 결제 되지 않는 테스트 결제입니다</p>
