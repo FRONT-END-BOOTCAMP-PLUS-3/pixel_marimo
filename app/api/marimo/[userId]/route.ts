@@ -1,4 +1,3 @@
-import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
 import { PgMarimoRepository } from "@marimo/infrastructure/repositories"
@@ -6,13 +5,13 @@ import { MarimoUsecase } from "@marimo/application/usecases/marimo/marimo-usecas
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { userId: string } },
+  { params }: { params: Promise<{ userId: string }> },
 ) {
-  const cookieStore = await cookies()
+  const cookieStore = req.cookies
   const token = cookieStore.get("token")?.value
 
-  const params_1 = await params
-  const userId = await Number(params_1.userId)
+  const resolvedParams = await params
+  const userId = Number(resolvedParams.userId)
 
   if (!token)
     return NextResponse.json({ message: "login failed" }, { status: 401 })
