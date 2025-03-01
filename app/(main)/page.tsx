@@ -1,10 +1,9 @@
-import TrashComponent from "@marimo/components/trash/trash-component"
+import DynamicCanvas from "@marimo/components/canvas"
 
-import styles from "@marimo/app/(main)/page.module.css"
 const Home = () => {
   return (
-    <div className={styles.page}>
-      <TrashComponent />
+    <div>
+      <DynamicCanvas />
     </div>
   )
 }
