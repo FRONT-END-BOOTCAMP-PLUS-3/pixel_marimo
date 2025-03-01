@@ -1,9 +1,9 @@
-import Canvas from "@marimo/components/canvas"
+import DynamicCanvas from "@marimo/components/canvas"
 
 const Home = () => {
   return (
     <div>
-      <Canvas />
+      <DynamicCanvas />
     </div>
   )
 }

@@ -45,6 +45,8 @@ model Object {
   isActive  Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  level     Int
+  url       String
   marimo    Marimo   @relation(fields: [marimoId], references: [id])
 
   @@map("objects")

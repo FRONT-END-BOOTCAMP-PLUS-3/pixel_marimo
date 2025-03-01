@@ -1,5 +1,7 @@
 "use client"
 
+import dynamic from "next/dynamic"
+
 import React, { useState, useEffect, useRef } from "react"
 
 import styles from "./index.module.css"
@@ -264,4 +266,8 @@ const Canvas = () => {
   )
 }
 
-export default Canvas
+const DynamicCanvas = dynamic(() => Promise.resolve(Canvas), {
+  ssr: false,
+})
+
+export default DynamicCanvas
