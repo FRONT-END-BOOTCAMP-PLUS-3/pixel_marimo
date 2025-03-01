@@ -1,4 +1,4 @@
-import Canvas from "@marimo/components/canvas/page"
+import Canvas from "@marimo/components/canvas"
 
 const Home = () => {
   return (

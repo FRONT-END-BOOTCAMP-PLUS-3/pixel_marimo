@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react"
 
-import styles from "./page.module.css"
+import styles from "./index.module.css"
 
 import { useStore } from "@marimo/stores/use-store"
 
