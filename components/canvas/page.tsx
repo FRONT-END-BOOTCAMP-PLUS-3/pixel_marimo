@@ -19,7 +19,7 @@ interface MarimoData {
 
 const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const marimoImgSrc = "/images/marimo.png"
+  const marimoImgSrc = "/images/marimo.svg"
   const [canvasWidth, setCanvasWidth] = useState(window.innerWidth)
   const [canvasHeight, setCanvasHeight] = useState(window.innerHeight)
   const [imageLoaded, setImageLoaded] = useState(false)
@@ -116,13 +116,6 @@ const Canvas = () => {
   //   drawTrashOnCanvas() // 캔버스에 그리기
   // }, [loadedTrashImages, canvasWidth, canvasHeight])
 
-  useEffect(() => {
-    loadMarimoImage()
-  }, [marimoImgSrc])
-
-  useEffect(() => {
-    drawMarimoOnCanvas()
-  }, [marimoPosition, imageLoaded, canvasWidth, canvasHeight])
   const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = canvasRef.current?.getBoundingClientRect()
     if (!rect) return
@@ -238,8 +231,13 @@ const Canvas = () => {
   }, [updateMarimo])
 
   useEffect(() => {
-    fetchMarimo()
-  }, [user?.id])
+    if (user) {
+      console.log("User data loaded:", user)
+      fetchMarimo()
+    } else {
+      console.log("User data is not loaded. User is null.")
+    }
+  }, [user])
 
   useEffect(() => {
     if (marimoData) {
