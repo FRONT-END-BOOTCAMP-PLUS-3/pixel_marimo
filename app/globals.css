@@ -175,6 +175,11 @@ main {
 
   box-sizing: border-box;
 }
+@media (max-width: 768px){
+  main {
+    padding-top: 70px;
+  }
+}
 
 * {
   box-sizing: border-box;

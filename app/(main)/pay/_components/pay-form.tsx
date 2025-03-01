@@ -179,9 +179,6 @@ export const PayForm = () => {
   return (
     <div className={wrapper}>
       <div>
-        {/* 결제 UI */}
-        <div id="payment-method" />
-
         <div className={p_wrapper}>
           <p>💡 실제로 결제 되지 않는 테스트 결제입니다</p>
           <p>Angry Marimo의 팀에게 후원하고 싶은 마음의 크기를 표현해주세요!</p>
@@ -194,6 +191,9 @@ export const PayForm = () => {
         </div>
 
         <Input label="pay" initialValue={price} setState={setPrice} />
+
+        {/* 결제 UI */}
+        <div id="payment-method" />
 
         {/* 이용약관 UI */}
         <div id="agreement" />

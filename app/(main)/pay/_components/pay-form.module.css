@@ -4,14 +4,13 @@
     
     max-width: 400px;
 
-    padding-top: 3rem;
-    padding-bottom: 6rem;
+    padding: 3rem 1rem 6rem;
     
     display: flex;
     flex-direction: column;
     justify-content: start;
 
-    gap: 1rem;
+    /* gap: 1rem; */
 }
 
 .p_wrapper {

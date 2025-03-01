@@ -24,3 +24,9 @@
     border-bottom: 1px solid gray;
   }
 }
+
+@media (max-width: 768px) {
+  .header {
+    height: 70px;
+  }
+}

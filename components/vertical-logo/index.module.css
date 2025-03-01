@@ -18,6 +18,11 @@
     box-sizing: border-box;
 }
 
+.title {
+    font-size : var(--text-5xl);
+    font-weight: bold;
+}
+
 .image__div {
     width: 100%;
     max-width: 400px;
@@ -28,4 +33,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media (max-width: 768px) {
+    .image__div {
+        height: 200px;
+    }
+
+    .title__div {
+        padding: 1.5rem 0;
+    }
+
+    .title{
+        font-size: var(--text-4xl);
+    }
 }

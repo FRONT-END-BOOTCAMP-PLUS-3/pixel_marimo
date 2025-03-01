@@ -6,7 +6,7 @@ import Image from "next/image"
 import styles from "@marimo/components/header/horizontal-logo.module.css"
 
 export const HorizontalLogo = () => {
-  const { wrapper, img_div } = styles
+  const { wrapper, img_div, title } = styles
   return (
     <Link className={wrapper} href={"/"}>
       {/* FIXME : 이미지 변경해야 합니다. */}
@@ -18,7 +18,7 @@ export const HorizontalLogo = () => {
           alt="marimo"
         />
       </div>
-      <p id="title" className="text-3xl-b">
+      <p id="title" className={title}>
         Angry Marimo
       </p>
     </Link>
